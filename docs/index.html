@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="light.css" id="colorScheme" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/6ed718fff7.js" crossorigin="anonymous"></script>
+  <script>
+    let localStorageNotes = JSON.parse(localStorage.getItem("notes"));
+    let localStorageNotesID = JSON.parse(localStorage.getItem("notes id's"));
+    localStorageNotes ??= {
+      saved: {},
+      open: {},
+    };
+    localStorageNotesID ??= [];
+    const savedNotesMap = new Map();
+    const openNotesMap = new Map();
+    const usedID = new Set();
+
+    for (let i in localStorageNotes.saved)
+      savedNotesMap.set(i, localStorageNotes.saved[i]);
+    for (let i in localStorageNotes.open)
+      openNotesMap.set(i, localStorageNotes.open[i]);
+    for (let i in localStorageNotesID) usedID.add(localStorageNotesID[i]);
+  </script>
+  <title>Notas</title>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loaderContainer">
+    <div>
+      <span class="loader ldr-1"></span>
+      <span class="loader ldr-2"></span>
+      <span class="loader ldr-3"></span>
+      <span class="loader ldr-4"></span>
+      <span class="loader ldr-5"></span>
+      <span class="loader ldr-6"></span>
+      <span class="loader ldr-7"></span>
+      <span class="loader ldr-8"></span>
+    </div>
+  </div>
+  <!-- APP -->
+  <section id="app">
+    <section id="navBar">
+      <section id="navBarMenu">
+        <div id="colorMode">
+          <input type="radio" id="light" name="colorScheme" checked />
+          <span class="material-icons darkSpan">dark_mode</span>
+          <input type="radio" id="dark" name="colorScheme" />
+          <span class="material-icons lightSpan">light_mode</span>
+        </div>
+        <div id="search">
+          <input type="search" id="searchInput" placeholder="Busca algo..." />
+          <span class="material-icons search">search</span>
+        </div>
+        <button id="newNoteButton"><i class="fa-solid fa-plus"></i></button>
+      </section>
+      <section id="navBarNotes"></section>
+    </section>
+    <section id="openNotes">
+      <!-- Open Notes & New Notes -->
+    </section>
+  </section>
+  <!-- Templates -->
+  <template id="templateNewNote">
+    <form class="newNote" tabindex="0">
+      <textarea name="note" class="noteText" cols="30" rows="10" placeholder="Escriba su nota..."></textarea>
+      <div class="buttons">
+        <i class="fa-solid fa-plus new"></i>
+        <i class="fa-solid fa-palette color"></i>
+        <div class="colors invisible">
+          <span class="green"></span>
+          <span class="red"></span>
+          <span class="orange"></span>
+          <span class="brown"></span>
+          <span class="blue"></span>
+          <span class="violet"></span>
+          <span class="default"></span>
+        </div>
+        <i class="fa-regular fa-trash-can delete"></i>
+        <i class="fa-regular fa-floppy-disk save"></i>
+        <i class="fa-solid fa-xmark close"></i>
+      </div>
+      <font class="limChar">0/500</font>
+    </form>
+  </template>
+  <template id="templateNoteSaved">
+    <li class="noteSaved">
+      <p></p>
+      <div>
+        <i class="fa-regular fa-pen-to-square edit"></i>
+        <i class="fa-regular fa-trash-can delete"></i>
+      </div>
+      <span class="date"></span>
+    </li>
+  </template>
+  <script>
+    const $ = (selectElement, HTMLobj = document) =>
+      HTMLobj.querySelector(selectElement);
+    const $$ = (selectAllElements, HTMLobj = document) =>
+      HTMLobj.querySelectorAll(selectAllElements);
+    const openNotes = $("#openNotes");
+    const notesSaved = $("#navBarNotes");
+
+    const loader = $("#loaderContainer");
+    const colorScheme = $("#colorScheme");
+    const colorModeInputs = $$("input", $("#colorMode"));
+
+    window.addEventListener("load", () => {
+      loader.style.opacity = "0";
+      loader.style.zIndex = "-10";
+    });
+
+    colorModeInputs.forEach((input) => {
+      input.addEventListener("click", () => {
+        if ($("#light").checked) colorScheme.href = "light.css";
+        else colorScheme.href = "dark.css";
+        openNotes.innerHTML = "";
+        notesSaved.innerHTML = "";
+        savedNotesMap.forEach((value, key) => {
+          render(key, value);
+        });
+        openNotesMap.forEach((value, key) => {
+          render(key, value);
+        });
+      });
+    });
+  </script>
+  <script src="../JS/main.js"></script>
+</body>
+
+</html>
