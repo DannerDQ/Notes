@@ -222,6 +222,8 @@ window.addEventListener("load", () => {
 
   if ($("#light").checked) colorScheme.href = "light.css";
   else colorScheme.href = "dark.css";
+  
+  if (search.value !== "" || search.value !== undefined || search.value !== null) find()
 });
 
 window.addEventListener("beforeunload", () => {
