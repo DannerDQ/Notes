@@ -1,0 +1,22 @@
+:root {
+	--NavBarBgClr: #8a6e5b;
+	--Color: #0008;
+	--lupa: #0008;
+	--buttonsColor: #FFFBE9;
+	--BgColor: #e9d8be;
+	--BgColorNotes: #FFFBE9;
+	--red: #F03F3F;
+	--redBG: #f8a6a6;
+	--orange: #ff9c1b;
+	--orangeBG: #f7c789;
+	--green: #15ff00;
+	--greenBG: #c0ff80;
+	--blue: #3FBFFF;
+	--blueBG: #bfe8ff;
+	--violet: #AF5FFF;
+	--violetBG: #debfff;
+	--brown: #9C6823;
+	--brownBG: #eabc35;
+	--default: #8a6e5b;
+	--defaultBG: #E3CAA5;
+}
